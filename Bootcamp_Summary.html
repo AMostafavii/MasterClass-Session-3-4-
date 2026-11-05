@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>گزارش دستاوردهای آموزشی بوت‌کمپ MasterClass Part</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3f9fe; --surface:#ffffff; --surface2:#eaf5fc; --ink:#17303f; --muted:#5b7384; --line:#d4e6f2;
+  --sky:#3aa6dd; --sky-soft:#cfeaf9; --sun:#f6c945; --sun-soft:#fff3c4; --ok:#2f9e6e; --shadow:0 6px 24px rgba(40,110,160,.10);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1a22; --surface:#15262f; --surface2:#1b3140; --ink:#e6f1f8; --muted:#9bb4c4; --line:#27424f;
+    --sky:#5bbcec; --sky-soft:#1d4358; --sun:#f1c94f; --sun-soft:#4a3f16; --ok:#4cc08f; --shadow:0 6px 24px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1a22; --surface:#15262f; --surface2:#1b3140; --ink:#e6f1f8; --muted:#9bb4c4; --line:#27424f;
+  --sky:#5bbcec; --sky-soft:#1d4358; --sun:#f1c94f; --sun-soft:#4a3f16; --ok:#4cc08f; --shadow:0 6px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Vazirmatn',Tahoma,'Segoe UI',sans-serif;line-height:1.9;font-size:16px}
+code,pre,.en{font-family:'Consolas','Courier New',monospace;direction:ltr}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px}
+/* hero */
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--sky-soft),var(--sun-soft));padding:44px 0 74px;border-bottom:1px solid var(--line)}
+.hero:before,.hero:after{content:"";position:absolute;border-radius:50%;opacity:.55;filter:blur(2px)}
+.hero:before{width:260px;height:260px;background:var(--sky);inset-inline-start:-80px;top:-90px;opacity:.28;animation:float 9s ease-in-out infinite}
+.hero:after{width:200px;height:200px;background:var(--sun);inset-inline-end:-60px;bottom:-70px;opacity:.4;animation:float 11s ease-in-out infinite reverse}
+@keyframes float{50%{transform:translateY(18px) scale(1.05)}}
+.hero .wrap{position:relative;z-index:1}
+.kicker{display:inline-block;background:var(--surface);color:var(--sky);padding:2px 14px;border-radius:99px;font-size:13px;font-weight:700;border:1px solid var(--line)}
+h1{margin:12px 0 6px;font-size:clamp(26px,5vw,40px);line-height:1.5;font-weight:800}
+.sub{color:var(--muted);max-width:620px;margin:0}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:26px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px;box-shadow:var(--shadow);text-align:center}
+.stat b{display:block;font-size:26px;color:var(--sky);line-height:1.3}
+.stat span{font-size:13px;color:var(--muted)}
+/* nav */
+nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:10px 0;scrollbar-width:none;align-items:center}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:14px;padding:6px 16px;border-radius:99px;cursor:pointer;transition:.2s}
+.tab:hover{border-color:var(--sky)}
+.tab[aria-selected="true"]{background:var(--sky);color:#fff;border-color:var(--sky);font-weight:700}
+.navrow{display:flex;align-items:center;gap:8px}.tabs{flex:1;min-width:0}.navx{flex:0 0 auto;display:flex;align-items:center;gap:8px}.prog{flex:0 0 auto;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);padding-inline-start:10px}
+.ring{width:34px;height:34px;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:4}
+.ring .bg{stroke:var(--line)} .ring .fg{stroke:var(--ok);stroke-linecap:round;transition:stroke-dashoffset .5s}
+/* panels */
+main{padding:26px 0 70px}
+.panel{display:none}
+.panel.on{display:block;animation:fade .4s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.dayhead{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:20px 22px;box-shadow:var(--shadow);margin-bottom:18px;border-inline-start:6px solid var(--sun)}
+.dayhead .d{color:var(--sky);font-weight:700;font-size:14px}
+.dayhead h2{margin:2px 0 6px;font-size:24px}
+.dayhead p{margin:0;color:var(--muted)}
+.hint{font-size:13px;color:var(--muted);margin:0 4px 10px}
+/* rows */
+.row{background:var(--surface);border:1px solid var(--line);border-radius:16px;margin-bottom:10px;overflow:hidden;transition:box-shadow .2s,border-color .2s}
+.row:hover{border-color:var(--sky);box-shadow:var(--shadow)}
+.row.done{border-color:color-mix(in srgb,var(--ok) 55%,var(--line))}
+.rh{width:100%;display:flex;align-items:center;gap:12px;padding:14px 16px;background:none;border:0;color:inherit;font:inherit;text-align:start;cursor:pointer}
+.time{flex:0 0 auto;background:var(--sky-soft);color:var(--sky);font-weight:700;font-size:13px;border-radius:10px;padding:2px 10px;white-space:nowrap}
+.rt{flex:1;font-weight:700}
+.dur{flex:0 0 auto;font-size:12px;color:var(--muted);background:var(--surface2);border-radius:99px;padding:0 10px}
+.chev{flex:0 0 auto;width:20px;height:20px;transition:transform .3s;color:var(--muted)}
+.row.open .chev{transform:rotate(180deg)}
+.rb{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease}
+.row.open .rb{grid-template-rows:1fr}
+.rb>div{overflow:hidden}
+.inner{padding:2px 18px 16px}
+.inner ul{margin:0;padding-inline-start:20px}
+.inner li{margin:6px 0}
+.inner li::marker{color:var(--sun)}
+.inner code{background:var(--surface2);padding:0 6px;border-radius:6px;font-size:.88em}
+pre{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;overflow-x:auto;margin:12px 0 4px;font-size:13px;line-height:1.7}
+pre code{background:none;padding:0}
+.chk{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:14px;color:var(--muted);cursor:pointer;width:max-content}
+.chk input{accent-color:var(--ok);width:18px;height:18px}
+.brk{display:none}
+/* tools */
+.tool{background:linear-gradient(135deg,var(--surface),var(--surface2));border:1px dashed var(--sky);border-radius:20px;padding:18px 20px;margin-top:22px}
+.tool h3{margin:0 0 4px;font-size:18px}
+.tool>p{margin:0 0 12px;color:var(--muted);font-size:14px}
+.ctl{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 20px;margin-bottom:12px}
+.ctl label{display:block;font-size:14px;color:var(--muted)}
+.ctl label b{color:var(--ink);float:left;direction:ltr}
+input[type=range]{width:100%;accent-color:var(--sky)}
+input[type=number]{width:100%;font:inherit;padding:6px 10px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);direction:ltr;text-align:left}
+.out{display:flex;flex-wrap:wrap;gap:10px}
+.pill{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:8px 16px;min-width:140px}
+.pill small{display:block;color:var(--muted);font-size:12px;line-height:1.5}
+.pill b{font-size:22px;color:var(--sky);direction:ltr;display:inline-block}
+.bars{display:grid;gap:8px;margin:10px 0}
+.bar{display:flex;align-items:center;gap:10px;font-size:14px}
+.bar span.l{flex:0 0 110px}
+.bar .t{flex:1;height:22px;background:var(--surface);border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+.bar .f{height:100%;background:linear-gradient(90deg,var(--sky),var(--sun));width:0;transition:width .7s cubic-bezier(.2,.8,.2,1)}
+.bar b{flex:0 0 44px;direction:ltr;text-align:left}
+.bar.sel .t{border-color:var(--sun);box-shadow:0 0 0 2px var(--sun-soft)}
+.bar{cursor:pointer}
+.note{font-size:13px;color:var(--muted)}
+/* project */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:12px 0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.card b.n{display:block;font-size:26px;color:var(--sky);line-height:1.4;direction:ltr;text-align:right}
+.card span{color:var(--muted);font-size:14px}
+.flow{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.flow span{background:var(--sun-soft);border:1px solid var(--line);border-radius:99px;padding:2px 14px;font-size:14px;position:relative}
+.flow span+span:before{content:"←";margin-inline-end:8px;color:var(--sky)}
+h3.sec{margin:26px 0 8px;font-size:20px}
+.warn{background:var(--sun-soft);border:1px solid var(--sun);border-radius:14px;padding:10px 14px;font-size:14px;margin-top:12px}
+/* glossary */
+.search{width:100%;font:inherit;padding:10px 16px;border-radius:14px;border:1px solid var(--line);background:var(--surface);color:var(--ink);margin-bottom:14px}
+.search:focus{outline:2px solid var(--sky)}
+.gl{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px}
+.term{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;transition:.2s}
+.term:hover{transform:translateY(-2px);border-color:var(--sky)}
+.term h4{margin:0;font-size:15px;direction:ltr;text-align:right;color:var(--sky)}
+.term small{display:block;color:var(--muted);direction:ltr;text-align:right;line-height:1.5}
+.term p{margin:4px 0 0;font-size:14px}
+.term .dd{font-size:11px;background:var(--surface2);border-radius:99px;padding:0 8px;color:var(--muted)}
+footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--muted);font-size:13px;text-align:center}
+button.theme{display:grid;place-items:center;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:99px;width:36px;height:36px;cursor:pointer;font-size:16px;flex:0 0 auto}
+@media (max-width:640px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .rh{flex-wrap:wrap;gap:6px 10px}
+  .rt{flex-basis:100%;order:3}
+  .time{order:1}.dur{order:2;margin-inline-start:auto}.chev{order:2}
+  .bar span.l{flex-basis:84px}
+}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s,transform .6s}
+.reveal.in{opacity:1;transform:none}
+@media print{nav,.tool,button.theme{display:none}.panel{display:block!important}.rb{grid-template-rows:1fr!important}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <span class="kicker">MasterClass Part (FinTech)</span>
+    <h1>گزارش دستاوردهای آموزشی بوت‌کمپ MasterClass Part (FinTech)</h1>
+    <p class="sub">خلاصه‌ی اجرایی چهار جلسه: از تحلیل داده با Python و آماده‌سازی داده‌ی اعتباری تا مدل‌های درختی، ارزیابی مدل، توضیح‌پذیری (SHAP و LIME) و سیاست آستانه.</p>
+    <div class="stats" id="stats"></div>
+  </div>
+</header>
+<nav><div class="wrap navrow"><div class="tabs" role="tablist" id="tabs"></div><div class="navx" id="navx"></div></div></nav>
+<main class="wrap" id="panels"></main>
+<footer><div class="wrap">MasterClass Part (FinTech) · آبان 1405</div></footer>
+<script>
+const DAYS = [
+{ id:'d1', n:'روز اول', date:'پنجشنبه 30 مهر 1405', title:'Python برای تحلیل داده', tool:'growth',
+  blurb:'پایه‌ی کار: NumPy، Matplotlib و Pandas روی پنج تمرین. هدف این روز، آموزش پرسش‌گری از داده بود، نه صرفا کدنویسی.',
+  rows:[
+  {t:'<bdi>08:45</bdi> تا <bdi>10:00</bdi>', d:'1 ساعت و 15 دقیقه', title:'افتتاحیه، معارفه و تبیین اهداف برنامه', pts:[
+    'مسیر بوت‌کمپ: Python و تحلیل داده، بعد مسئله‌ی اعتباری و آماده‌سازی داده، بعد مدل‌های درختی، و در پایان ارزیابی، توضیح‌پذیری و تصمیم.',
+    'قاعده‌ی کار: هر تحلیل باید به یک سوال کسب‌وکاری وصل شود.']},
+  {t:'<bdi>10:00</bdi> تا <bdi>10:30</bdi>', d:'30 دقیقه', title:'معرفی کتابخانه‌های Python و کاربردهای آن‌ها', pts:[
+    '<b>NumPy</b>: array، آمار پایه (mean، std)، عملیات vectorized بدون حلقه و Boolean indexing مثل <code>area[price &lt; 2000]</code>.',
+    '<b>Matplotlib</b>: انتخاب نمودار بر اساس سوال: bar برای مقایسه‌ی دسته‌ها، scatter برای رابطه‌ی دو متغیر، errorbar برای میانگین و انحراف معیار، box برای میانه و چارک‌ها و outlier، histogram برای شکل توزیع، line برای تغییر در زمان.',
+    '<b>Pandas</b>: <code>head()</code>، <code>info()</code>، <code>describe()</code>، فیلتر با شرط Boolean، ساخت ستون جدید، <code>groupby</code> و کار با missing value با <code>isna / fillna / dropna</code>.'],
+    code:"df['price_per_m2'] = df['price'] / df['area_m2']\n(df.groupby('city')['price_per_m2']\n   .mean().sort_values().plot.barh())"},
+  {t:'<bdi>10:30</bdi> تا <bdi>11:00</bdi>', d:'30 دقیقه', title:'گردآوری و تحلیل داده‌های شهرهای کالیفرنیا', pts:[
+    'داده‌ی 482 شهر. ستون‌های لازم نگه داشته شد و واحدها یکسان شد: فوت به متر و مایل مربع به کیلومتر مربع.',
+    'نقشه‌ی جمعیت با scatter: طول و عرض جغرافیایی موقعیت، اندازه‌ی نقطه مساحت و رنگ جمعیت.',
+    '10 شهر پرجمعیت با bar افقی مرتب‌شده، و رابطه‌ی جمعیت و مساحت با محور لگاریتمی چون مقادیر چند مرتبه‌ی بزرگی پراکنده‌اند.',
+    'ساخت متغیر معنادار: <b>تراکم جمعیت = جمعیت ÷ مساحت</b> و بررسی توزیع آن با histogram.']},
+  {t:'<bdi>11:00</bdi> تا <bdi>11:30</bdi>', d:'30 دقیقه', title:'داده‌های میلیاردرها: پاک‌سازی و شاخص‌های ثروت', pts:[
+    'داده‌ی Forbes سال 2021. اول وجود missing value بررسی شد و ردیف‌های ناقص حذف شد.',
+    'ستون NetWorth به شکل متن ($ در ابتدا و B در انتها) بود؛ علامت‌ها حذف و ستون به عدد (میلیارد دلار) تبدیل شد.',
+    'رتبه‌بندی 20 ثروتمند برتر با bar افقی.'],
+    code:"df['NetWorth'] = (df['NetWorth']\n    .str.replace('$', '', regex=False)\n    .str.replace(' B', '', regex=False)\n    .astype(float))"},
+  {t:'<bdi>11:45</bdi> تا <bdi>12:15</bdi>', d:'30 دقیقه', title:'بررسی الگوهای آماری در داده‌ی میلیاردرها', pts:[
+    'با <code>value_counts()</code> منبع ثروت، صنعت و کشور مقایسه شد.',
+    'نتیجه: آمریکا و چین بیشترین میلیاردر را دارند. درس: شمارش ساده با یک نمودار خوب می‌تواند الگو را نشان دهد، ولی علت را نشان نمی‌دهد.']},
+  {t:'<bdi>12:15</bdi> تا <bdi>13:00</bdi>', d:'45 دقیقه', title:'تحلیل داده‌های عملکرد لیونل مسی', pts:[
+    '790 گل باشگاهی. تبدیل تاریخ به datetime و تبدیل دقیقه‌ی گل به عدد پیش از هر نمودار.',
+    'گل بر حسب فصل (line با حفظ ترتیب زمانی)، مسابقه (bar رتبه‌ای)، بازه‌ی دقیقه، نوع گل و خانه یا خارج از خانه.',
+    'درس: برای داده‌ی زمانی ترتیب زمانی حفظ می‌شود و به‌جای مرتب‌سازی بر اساس تعداد، روند نمایش داده می‌شود.']},
+  {t:'<bdi>14:00</bdi> تا <bdi>15:30</bdi>', d:'1 ساعت و 30 دقیقه', title:'تحلیل داده‌های خرده‌فروشی آنلاین، بخش اول', pts:[
+    '<b>North Star Metric</b>: یک عدد که سلامت کسب‌وکار را خلاصه می‌کند. بدون آن، تیم جهت ندارد.',
+    'درآمد ماهانه = Quantity × UnitPrice تجمیع‌شده بر حسب ماه، و رشد ماه به ماه با <code>pct_change()</code>. در داده، رشد حدود 36.5 درصد نسبت به ماه قبل بود (دسامبر ناقص حذف شد).',
+    'تفکیک علت رشد: مشتری فعال ماهانه (<code>nunique</code> روی CustomerID)، تعداد سفارش و میانگین درآمد هر سفارش. در آوریل، مشتری فعال از 923 به 817 رسید (حدود 11.5 درصد کاهش) و همه‌ی شاخص‌ها هم‌زمان افت کردند.'],
+    code:"df['Revenue'] = df['UnitPrice'] * df['Quantity']\nmonthly = df.groupby('YearMonth')['Revenue'].sum()\ngrowth = monthly.pct_change()"},
+  {t:'<bdi>15:45</bdi> تا <bdi>17:15</bdi>', d:'1 ساعت و 30 دقیقه', title:'تحلیل داده‌های خرده‌فروشی آنلاین، بخش دوم', pts:[
+    '<b>New Customer Ratio</b>: مشتری جدید یعنی اولین خرید در همان ماه. نسبت مشتری جدید حدود 20 درصد شد و روند مشتری جدید کمی منفی بود.',
+    '<b>Monthly Retention</b>: با <code>crosstab</code> جدول فعال یا غیرفعال هر مشتری در هر ماه ساخته شد و نرخ نگهداشت = مشتری ماندگار ÷ کل مشتریان ماه قبل.',
+    '<b>Cohort Retention</b>: مشتریان بر اساس ماه اولین خرید گروه‌بندی می‌شوند. بعد از حدود یک سال، حدود 15 درصد مشتریان باقی ماندند.']},
+  {t:'<bdi>17:30</bdi> تا <bdi>18:00</bdi>', d:'30 دقیقه', title:'تمرین عملی، مرور مفاهیم و جمع‌بندی', pts:[
+    'جمع‌بندی روز: <b>inspect، clean، transform، visualize، interpret</b>. این همان چرخه‌ای است که در روزهای بعد روی داده‌ی اعتباری تکرار شد.']}
+  ]},
+{ id:'d2', n:'روز دوم', date:'جمعه 1 آبان 1405', title:'مسئله‌ی ریسک اعتباری و آماده‌سازی داده', tool:'el',
+  blurb:'از تعریف «مشتری بد» تا یک مجموعه‌داده‌ی آماده‌ی مدل‌سازی: متغیر هدف، پاک‌سازی، جلوگیری از نشت اطلاعات و انتخاب ویژگی.',
+  rows:[
+  {t:'<bdi>10:00</bdi> تا <bdi>10:30</bdi>', d:'30 دقیقه', title:'معرفی و آشنایی با فضای ذهنی شرکت‌کنندگان', pts:[
+    'هم‌سو کردن زبان مشترک: ریسک اعتباری یعنی تصمیم گرفتن با عدم قطعیت، و مدل فقط یکی از اجزای آن است.']},
+  {t:'<bdi>10:30</bdi> تا <bdi>11:30</bdi>', d:'1 ساعت', title:'صورت‌بندی مسئله‌ی ریسک اعتباری و شناخت داده‌ها', pts:[
+    '<b>سفر مشتری</b>: شناخت متقاضی جدید، تصمیم مالی، رصد رفتار مشتری فعلی، و ارزیابی. داده‌ها از درآمد، سابقه‌ی پرداخت اقساط، الگوی تراکنش‌ها و پایگاه‌های اطلاعات اعتباری بیرونی می‌آیند.',
+    '<b>ساخت متغیر هدف</b>: مشتری بد حداقل 90 روز تاخیر مستمر دارد (معیار اصلی استاندارد جهانی)، مشتری خوب همه‌ی پرداخت‌ها را سر موعد انجام می‌دهد، و مشتری خاکستری تاخیرهای کوتاه (10 تا 30 روز) دارد و صرفا «بد» نیست.',
+    '<b>سه مولفه‌ی ریسک</b>: PD احتمال نکول در یک بازه، LGD درصد زیان بعد از بازیافت و EAD مبلغ در معرض ریسک. <b><span dir="ltr">EL = PD × LGD × EAD</span></b>.',
+    '<b>Vintage Analysis</b>: افق عملکرد باید از داده استخراج شود: نرخ نکول تجمعی بر حسب ماه از زمان اعطا رسم می‌شود و جایی که منحنی‌ها به بلوغ می‌رسند افق مناسب است.',
+    '<b>امتیاز ریسک</b>: خروجی مدل بین 0 و 1 یا یک امتیاز مثل 300 تا 850. هدف تبدیل احتمال آماری به تصمیم با بیشترین سود مالی است: تایید، ضمانت یا رد.']},
+  {t:'<bdi>11:45</bdi> تا <bdi>12:15</bdi>', d:'30 دقیقه', title:'تحلیل اکتشافی و آماده‌سازی داده‌های اعتباری', pts:[
+    '<b>Invalid values</b>: نوع داده، دامنه‌ی مجاز و ناسازگاری منطقی بررسی می‌شود. مقدار نامعتبر یا حذف می‌شود، یا به NaN تبدیل و جایگزین می‌شود، یا با قانون دامنه اصلاح می‌شود.',
+    '<b>Missing values</b>: حذف، جایگزینی با mean یا median یا mode، و ساخت missing indicator برای اینکه خود «گم‌شدن» هم یک سیگنال باشد.',
+    '<b>Outliers</b>: شناسایی با Z-Score، IQR یا مدل (Isolation Forest، LOF) و برخورد با capping یا Robust Scaling. حذف فقط وقتی خطا تایید شد.',
+    '<b>Duplicate و Outlier خودکار حذف نمی‌شوند</b>: سن 150 احتمالا خطای ثبت است، ولی درآمد بسیار بالا ممکن است واقعی باشد.']},
+  {t:'<bdi>12:15</bdi> تا <bdi>13:15</bdi>', d:'1 ساعت', title:'مهندسی ویژگی و انتخاب متغیرهای موثر', pts:[
+    '<b>Target Leakage</b>: ویژگی‌ای که مستقیم یا غیرمستقیم پاسخ را لو می‌دهد، یا استفاده از اطلاعات test در آموزش و پیش‌پردازش. تست سریع: آیا این داده دقیقا در لحظه‌ی تصمیم اعتباری در دسترس بود؟ در نوتبوک، ستون NumberOfDefault به همین دلیل حذف شد.',
+    '<b>Stratified split</b> (در نوتبوک 70 به 30): نسبت کلاس هدف در train و test حفظ می‌شود. median و هر آماری فقط از train محاسبه و به test اعمال می‌شود.',
+    '<b>Feature Engineering</b>: ویژگی‌های demographic، financial، behavioral و binary (مثل سابقه‌ی تاخیر). مثال: جمع تاخیرهای 30، 60 و 90 روزه به یک ویژگی خلاصه‌شده.',
+    '<b>Binning، WOE و IV</b>: <span dir="ltr">WOE = ln(Good% ÷ Bad%)</span> و <span dir="ltr">IV = Σ (Good% − Bad%) × WOE</span>. IV قدرت تفکیک یک ویژگی را خلاصه می‌کند.',
+    '<b>Feature Selection</b>: روش‌های filter ارزان و مستقل از مدل‌اند، روش‌های wrapper گران و وابسته به مدل. افزونگی را با correlation و ارتباط با هدف را با mutual information بررسی می‌شود.'],
+    code:"woe = np.log(t['Good_Dist'] / t['Bad_Dist'])\nt['IV'] = (t['Good_Dist'] - t['Bad_Dist']) * woe\nprint('IV =', t['IV'].sum())"},
+  {t:'<bdi>14:15</bdi> تا <bdi>16:00</bdi>', d:'1 ساعت و 45 دقیقه', title:'بررسی نمای واقعی داده‌ها و جمع‌بندی پروژه', pts:[
+    'کار روی Give Me Some Credit با 20 گام: ساختار داده، تعریف target (<code>SeriousDlqin2yrs</code>)، duplicate، correlation، leakage، داده‌ی غیرممکن، split، missing، outlier، رابطه با target، feature engineering، binning، WOE و IV، افزونگی و mutual information.',
+    'نکته‌ی عملی: پس از پاک‌سازی، 149,724 ردیف باقی ماند و حدود 6.6 درصد نکول داشتند. کلاس نادر، پس accuracy به‌تنهایی گمراه‌کننده است (در روز سوم بررسی شد).']},
+  {t:'<bdi>16:15</bdi> تا <bdi>18:00</bdi>', d:'1 ساعت و 45 دقیقه', title:'تمرین عملی، مرور مفاهیم و جمع‌بندی', pts:[
+    'خروجی روز: داده‌ای تمیز، بدون نشت، با ویژگی‌های معنادار و یک split قابل اعتماد. بدون آن، هر مدلی که بعدا بسازیم عدد زیبا ولی بی‌اعتبار می‌دهد.']}
+  ]},
+{ id:'d3', n:'روز سوم', date:'پنجشنبه 7 آبان 1405', title:'Decision Tree و Random Forest', tool:'impurity',
+  blurb:'مدل‌های درختی روی پنج تمرین: از یک جدول 13 ردیفی تا داده‌ی 150 هزار ردیفی اعتباری. تمرکز روی ارزیابی درست، نه صرفا ساختن مدل.',
+  rows:[
+  {t:'<bdi>10:00</bdi> تا <bdi>11:00</bdi>', d:'1 ساعت', title:'Introduction and Review: Machine Learning', pts:[
+    '<b>Supervised learning</b>: جدا کردن train و test، خطر overfitting و مبادله‌ی bias و variance.',
+    '<b>Decision Tree</b>: در هر گره، ویژگی و آستانه‌ای انتخاب می‌شود که ناخالصی را بیشتر کاهش دهد. <b><span dir="ltr">Gini = 1 − Σ pᵢ²</span></b> و <b><span dir="ltr">Entropy = −Σ pᵢ log₂ pᵢ</span></b>.',
+    '<b>Random Forest</b>: میانگین (یا رای) چند درخت که روی نمونه‌های bootstrap و زیرمجموعه‌ی تصادفی ویژگی‌ها آموزش دیده‌اند. هایپرپارامترهای اصلی: <code>n_estimators</code>، <code>max_depth</code>، <code>min_samples_leaf</code>.',
+    'معیارهای رگرسیون: MAE، RMSE و R². معیارهای دسته‌بندی: Accuracy، Precision، Recall، F1، ماتریس درهم‌ریختگی.']},
+  {t:'<bdi>11:00</bdi> تا <bdi>12:00</bdi>', d:'1 ساعت', title:'Decision Tree: Comedy Show (تمرین 1)', pts:[
+    'جدول اصلی فقط 13 ردیف داشت (7 مورد YES و 6 مورد NO) و هدف پیش‌بینی رفتن به برنامه‌ی کمدین‌ها بود.',
+    'با <code>GaussianCopulaSynthesizer</code> از کتابخانه‌ی sdv، 100 ردیف مصنوعی ساخته شد. اعتبار آن‌ها بررسی شد: سن و تجربه در بازه‌ی واقعی و بدون کپی دقیق ردیف واقعی.',
+    'چون داده‌ی کوچک است، ارزیابی با <b>leave-one-out</b> انجام شد. نتیجه‌ی مهم: دقت روی داده‌ی افزوده‌شده را نباید جدی گرفت، چون ردیف‌های مصنوعی از همان 13 ردیف ساخته شده‌اند.']},
+  {t:'<bdi>12:00</bdi> تا <bdi>13:00</bdi>', d:'1 ساعت', title:'Decision Tree: Women vs Men (تمرین 5، ANSUR II)', pts:[
+    'داده‌ی ANSUR II شامل 4,082 مرد و 1,986 زن. پیش‌پردازش، نمودار قد دو گروه، و تقسیم 80 و 20.',
+    'مقایسه‌ی یک درخت تصمیم با Bagging روی همان داده، با دقت، ماتریس درهم‌ریختگی و classification report. ایده: میانگین‌گیری از چند درخت واریانس را کم و نتیجه را پایدارتر می‌کند.',
+    'نکته: نمونه‌ی ANSUR پرسنل ارتش آمریکاست و به جمعیت غیرنظامی تعمیم‌پذیر نیست.']},
+  {t:'<bdi>14:00</bdi> تا <bdi>15:00</bdi>', d:'1 ساعت', title:'Random Forest: California Housing (تمرین 2)', pts:[
+    'تمرین رگرسیون قیمت مسکن (در تمرین، داده‌ی Boston با 506 ردیف). Random Forest با 100 درخت و معیارهای RMSE و MAE و R².',
+    'نمودار مقدار واقعی در برابر پیش‌بینی با خط قطری «پیش‌بینی کامل»، و مقایسه‌ی جنگل‌های 50 و 100 و 200 درختی.',
+    'تبدیل RMSE به دلار (هدف بر حسب هزار دلار است) تا خطا برای کسب‌وکار قابل فهم شود، و تحلیل حساسیت با حذف ستون B که به ترکیب نژادی محله مربوط است و از نظر انصاف حساس است.'],
+    code:"rf = RandomForestRegressor(n_estimators=100, random_state=42)\nrf.fit(X_tr, y_tr)\nrmse = mean_squared_error(y_te, rf.predict(X_te)) ** 0.5"},
+  {t:'<bdi>15:00</bdi> تا <bdi>16:00</bdi>', d:'1 ساعت', title:'Random Forest: Titanic (تمرین 3)', pts:[
+    '<b>Feature importance</b> داخلی (feature_importances_) در برابر <b>permutation importance</b> روی داده‌ی دیده‌نشده: دومی کمتر به ویژگی‌های پرمقدار تمایل دارد.',
+    'classification report، ماتریس درهم‌ریختگی و تفسیر مثبت و منفی کاذب، و اثر محدود کردن عمق درخت روی overfitting.',
+    'ارسال به Kaggle: بهترین امتیاز عمومی ثبت‌شده 0.78708 بود. نتیجه: public leaderboard با 418 ردیف نویز حدود 2 درصد دارد و نباید برای بالا بردن آن به آزمون و خطا تکیه کرد.']},
+  {t:'<bdi>16:00</bdi> تا <bdi>17:00</bdi>', d:'1 ساعت', title:'Random Forest: Give Me Some Credit (تمرین 4)', pts:[
+    'با 6.6 درصد نکول، مدلی که همه را «غیرنکول» بگوید حدود 93 درصد accuracy دارد ولی بی‌فایده است. پس Precision، Recall، F1 و Support برای کلاس نکول گزارش شد.',
+    'بهبود مدل با class weight و تنظیم آستانه: بهترین برش 0.20 شد و Recall و PR-AUC بهتر شدند در حالی که accuracy تقریبا ثابت ماند.',
+    'درس اصلی: در داده‌ی نامتوازن، آستانه تصمیم یک انتخاب کسب‌وکاری است و ارزیابی باید بر پایه‌ی PR curve باشد، نه accuracy.']}
+  ]},
+{ id:'d4', n:'روز چهارم', date:'جمعه 8 آبان 1405', title:'ارزیابی، توضیح‌پذیری و تصمیم', tool:'eval',
+  blurb:'از «مدل خوب» تا «تصمیم قابل دفاع»: تفکیک‌پذیری، کالیبراسیون، پایداری، SHAP و LIME، سیاست آستانه و ارائه‌ی مدیریتی.',
+  rows:[
+  {t:'<bdi>10:00</bdi> تا <bdi>10:30</bdi>', d:'30 دقیقه', title:'معرفی و آشنایی با فضای ذهنی شرکت‌کنندگان', pts:[
+    'سوال محوری روز: آیا مدل در واقعیت به کسب‌وکار آسیب نمی‌زند؟']},
+  {t:'<bdi>10:30</bdi> تا <bdi>11:45</bdi>', d:'1 ساعت و 15 دقیقه', title:'ارزیابی مدل: قدرت تفکیک‌پذیری', pts:[
+    'چارچوب ارزیابی دو سوال دارد: آیا مدل پرخطرها را از خوش‌حساب‌ها جدا می‌کند (<b>discrimination</b>)؟ آیا احتمال اعلام‌شده با نرخ نکول واقعی می‌خواند (<b>calibration</b>)؟ هر دو باید جدا بررسی شوند.',
+    'چرا Accuracy و Recall کافی نیستند: در داده‌ی نامتوازن accuracy بالا می‌دهد و Recall به آستانه وابسته است که خودش سیاست اعتباری است.',
+    '<b>ROC و AUC</b>: 0.5 یعنی تصادفی و 1 یعنی جداسازی کامل. تفسیر جفتی: احتمال اینکه امتیاز یک نکول‌کننده‌ی تصادفی از یک خوش‌حساب تصادفی بیشتر باشد. در مثال دوره، 5 جفت از 6 جفت درست ترتیب داشتند و AUC حدود 0.83 شد.',
+    '<b><span dir="ltr">Gini = 2 × AUC − 1</span></b> و منحنی CAP که تمرکز نکول‌کننده‌ها در بخش پرریسک جمعیت را نشان می‌دهد.',
+    '<b>KS</b>: بیشترین فاصله‌ی مطلق بین توزیع تجمعی مشتریان خوش‌حساب و بدحساب. نقطه‌ی بیشینه‌ی KS کاندیدای cut-off است، ولی نیاز کسب‌وکار را هم باید دید.',
+    'موارد تکمیلی ارزیابی کسب‌وکاری: Out-of-Time validation، تست leakage، Lift و Gains، و Segment Analysis چون میانگین خوب می‌تواند یک گروه بد را پنهان کند.']},
+  {t:'<bdi>12:15</bdi> تا <bdi>13:15</bdi>', d:'1 ساعت', title:'ارزیابی مدل: قدرت پیش‌بینی احتمال نکول', pts:[
+    '<b>Calibration</b>: «آیا 10 درصد واقعا یعنی 10 درصد؟». از 100 نفر با PD برابر 50 درصد، حدود 50 نفر باید نکول کنند. نقاط بالای خط 45 درجه یعنی کم‌برآوردی ریسک و پایین آن یعنی بیش‌برآوردی.',
+    'کالیبراسیون را روی داده‌ی مستقل validation یا test بررسی و در صورت نیاز روی داده‌ی مستقل اصلاح می‌شود.',
+    '<b>Brier Score</b> = میانگین (احتمال پیش‌بینی‌شده − برچسب واقعی)². هرچه کمتر، بهتر. دو مدل با AUC یکسان می‌توانند Brier متفاوت داشته باشند.',
+    '<b>PSI</b> برای پایداری توزیع بعد از استقرار: کمتر از 0.1 تغییر اندک، بین 0.1 و 0.25 تغییر متوسط (پایش)، و 0.25 یا بیشتر تغییر قابل توجه (بررسی فوری و سنجش ضرورت بازآموزی).',
+    'چک‌لیست پیش از استقرار: AUC و Gini و KS، Out-of-Time، نمودار کالیبراسیون و Brier، مقایسه با مدل مرجع، و ثبت تصمیم نهایی.']},
+  {t:'<bdi>14:15</bdi> تا <bdi>16:00</bdi>', d:'1 ساعت و 45 دقیقه', title:'توضیح‌پذیری خروجی در مدل‌های هوش مصنوعی (XAI)', pts:[
+    '<b>Interpretability</b> یعنی منطق مدل از ساختارش قابل دنبال‌کردن است (Logistic Regression، Decision Tree). <b>Explainability</b> یعنی بعد از آموزش یک توضیح می‌سازیم (post-hoc).',
+    'دسته‌بندی روش‌ها: ذاتی در برابر post-hoc، سراسری (global) در برابر محلی (local)، وابسته به مدل در برابر مستقل از مدل.',
+    '<b>LIME</b>: یک مدل ساده در همسایگی یک نمونه. شهودی ولی به نمونه‌گیری و neighborhood حساس است، پس پایداری آن باید بررسی شود.',
+    '<b>SHAP</b>: تقسیم «اعتبار» پیش‌بینی با منطق نظریه‌ی بازی (Shapley). خاصیت جمع‌پذیری: <b><span dir="ltr">Base Value + Σ SHAP = Prediction</span></b>. برای مدل‌های درختی از TreeSHAP استفاده می‌شود.',
+    'نمودارها: Waterfall و Force برای یک متقاضی، Bar برای اهمیت سراسری، Beeswarm برای اهمیت و جهت و مقدار، Dependence برای شکل رابطه. همچنین PDP و ICE.',
+    '<b>Reason Code</b>: تبدیل توضیح فنی به جمله‌ی قابل ارائه به مشتری. و <b>Fairness</b>: حذف متغیر حساس سوگیری را حذف نمی‌کند، چون proxy ها جایگزین می‌شوند.',
+    'خطاهای رایج: اهمیت بالا به معنی علیت نیست، ویژگی‌های همبسته اعتبار را تقسیم می‌کنند، و خود توضیح هم باید validate شود (fidelity، stability، sparsity، actionability).'],
+    code:"import shap\nexpl = shap.TreeExplainer(rf)\nsv = expl(X_test)          # base_value + values = prediction\nshap.plots.waterfall(sv[i])  # one applicant\nshap.plots.beeswarm(sv)      # global view"},
+  {t:'<bdi>16:15</bdi> تا <bdi>18:00</bdi>', d:'1 ساعت و 45 دقیقه', title:'تبدیل تحلیل به تصمیم و جمع‌بندی مفاهیم بوت‌کمپ', pts:[
+    '<b>Cost Matrix</b>: دو خطا از نظر ریاضی مشابه‌اند ولی از نظر مالی نه. رد مشتری خوب، سود از دست رفته است و تایید مشتری بد، زیان اصل وام.',
+    '<b>Threshold Policy</b>: سه مسیر عملیاتی، نه چهار رنگ تصمیم: Green پذیرش خودکار (مثلا احتمال نکول کمتر از 8 درصد)، Yellow بررسی کارشناسی، و مسیر رد. دو عددی که مدیر با آن‌ها حرف می‌زند: <b>Approval Rate</b> و <b>Bad Rate</b>.',
+    '<b>Governance</b>: محدودیت‌ها و فرضیات باید پیش از بحران مستند شود، به‌همراه Model Card و Monitoring ماهانه (PSI، نرخ missing، توزیع score، AUC و Bad Rate) و Retraining Trigger مشخص.',
+    '<b>ارائه‌ی مدیریتی</b>: حداکثر 5 اسلاید با عدد، سناریو و پیشنهاد مشخص: مسئله و KPI، مدل و Calibration، Threshold Policy، Explainability و Fairness و ریسک‌ها، و در پایان Recommendation. هر چیزی که به تصمیم وصل نمی‌شود می‌رود به Appendix.',
+    'Go-Live Checklist: Split زمانی و Leakage، Calibration و AUC، Approval و Bad Rate و Cost، Reason Code و SHAP، Fairness، Monitoring، Model Card و Audit Trail.']}
+  ]}
+];
+
+const GLOSSARY = [
+ ['PD','Probability of Default','احتمال نکول مشتری در یک بازه‌ی زمانی مشخص.','d2'],
+ ['LGD','Loss Given Default','درصد مبلغ در معرض ریسک که بعد از بازیافت وجوه از دست می‌رود.','d2'],
+ ['EAD','Exposure at Default','میزان تعهد مالی در لحظه‌ی نکول.','d2'],
+ ['EL','Expected Loss','<span dir="ltr">EL = PD × LGD × EAD</span>.','d2'],
+ ['Vintage Analysis','','نرخ نکول تجمعی بر حسب ماه از زمان اعطا برای انتخاب افق عملکرد.','d2'],
+ ['Target Leakage','','استفاده از اطلاعاتی که در لحظه‌ی تصمیم در دسترس نبوده یا مستقیم پاسخ را لو می‌دهد.','d2'],
+ ['Stratified Split','','تقسیم train و test با حفظ نسبت کلاس هدف.','d2'],
+ ['WOE','Weight of Evidence','ln(Good% ÷ Bad%) برای هر گروه یک ویژگی.','d2'],
+ ['IV','Information Value','Σ (Good% − Bad%) × WOE: قدرت تفکیک یک ویژگی.','d2'],
+ ['Mutual Information','','سنجش وابستگی (حتی غیرخطی) یک ویژگی با هدف.','d2'],
+ ['North Star Metric','','عددی که سلامت کسب‌وکار را خلاصه می‌کند، مثل درآمد ماهانه.','d1'],
+ ['Cohort Retention','','نرخ ماندگاری مشتریان گروه‌بندی‌شده بر اساس ماه اولین خرید.','d1'],
+ ['Gini Impurity','','1 − Σ pᵢ². معیار ناخالصی در گره‌های درخت (غیر از ضریب Gini).','d3'],
+ ['Entropy','','−Σ pᵢ log₂ pᵢ. معیار دیگر ناخالصی.','d3'],
+ ['Bagging','','میانگین‌گیری از مدل‌های آموزش‌دیده روی نمونه‌های bootstrap برای کاهش واریانس.','d3'],
+ ['Permutation Importance','','افت عملکرد روی داده‌ی دیده‌نشده وقتی مقادیر یک ویژگی بُر می‌خورد.','d3'],
+ ['Precision / Recall','','Precision: از پیش‌بینی‌های مثبت چند درصد درست است. Recall: از مثبت‌های واقعی چند درصد پیدا شد.','d3'],
+ ['PR-AUC','','سطح زیر منحنی Precision-Recall؛ برای داده‌ی نامتوازن مناسب‌تر از accuracy.','d3'],
+ ['AUC','','احتمال اینکه امتیاز یک بد تصادفی از یک خوب تصادفی بیشتر باشد؛ 0.5 تصادفی.','d4'],
+ ['Gini (ضریب)','','2 × AUC − 1.','d4'],
+ ['KS','Kolmogorov-Smirnov','بیشترین فاصله‌ی بین توزیع تجمعی مشتریان خوش‌حساب و بدحساب.','d4'],
+ ['Calibration','','تطابق احتمال پیش‌بینی‌شده با نرخ نکول واقعی.','d4'],
+ ['Brier Score','','میانگین مربع خطای احتمال پیش‌بینی‌شده؛ کمتر بهتر.','d4'],
+ ['PSI','Population Stability Index','تغییر توزیع بین زمان توسعه و استقرار؛ 0.1 و 0.25 آستانه‌ها.','d4'],
+ ['Lift / Gains','','اگر x درصد جمعیت را بررسی کنیم چند برابر تصادف بد پیدا می‌کنیم.','d4'],
+ ['Approval Rate / Bad Rate','','درصد پذیرفته‌شده‌ها و نرخ نکول در میان پذیرفته‌شدگان.','d4'],
+ ['SHAP','','سهم هر ویژگی در پیش‌بینی بر پایه‌ی مقدار Shapley؛ جمع‌پذیر.','d4'],
+ ['LIME','','توضیح محلی با مدل ساده‌ی خطی در همسایگی یک نمونه.','d4'],
+ ['PDP / ICE','','اثر تغییر یک ویژگی بر پیش‌بینی: میانگین (PDP) یا برای هر نمونه (ICE).','d4'],
+ ['Reason Code','','جمله‌ی قابل ارائه به مشتری که دلیل رد را بدون اصطلاح فنی می‌گوید.','d4'],
+ ['Proxy','','ویژگی ظاهرا بی‌ضرر که نماینده‌ی پنهان یک گروه حساس است.','d4'],
+ ['Drift','','تغییر توزیع داده (Data Drift) یا رابطه‌ی ویژگی و هدف (Concept Drift) بعد از استقرار.','d4'],
+ ['Model Card','','سند خلاصه‌ی هدف، داده، محدودیت‌ها و عملکرد مدل.','d4']
+];
+
+</script>
+<script>
+(function(){
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const fa=n=>String(n);
+let store={}; try{store=JSON.parse(localStorage.getItem('bc-done')||'{}')}catch(e){}
+const save=()=>{try{localStorage.setItem('bc-done',JSON.stringify(store))}catch(e){}};
+const total=DAYS.reduce((a,d)=>a+d.rows.length,0);
+
+/* stats */
+$('#stats').innerHTML=[[4,'جلسه'],[total,'مبحث آموزشی'],[11,'تمرین عملی'],[1,'پروژه‌ی نهایی']].map(([n,l])=>`<div class="stat"><b data-n="${n}">0</b><span>${l}</span></div>`).join('');
+$$('.stat b').forEach(b=>{const n=+b.dataset.n;let i=0;const st=()=>{i++;b.textContent=Math.round(n*Math.min(1,i/24));if(i<24)requestAnimationFrame(st)};requestAnimationFrame(st)});
+
+/* tabs */
+const tabs=[...DAYS.map(d=>({id:d.id,label:d.n})),{id:'proj',label:'پروژه‌ی نهایی'},{id:'gloss',label:'واژه‌نامه'}];
+$('#tabs').innerHTML=tabs.map((t,i)=>`<button class="tab" role="tab" data-id="${t.id}" aria-selected="${i==0}">${t.label}</button>`).join('');
+$('#navx').innerHTML=`<button class="theme" id="th" aria-label="تغییر تم"><svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10 2a8 8 0 0 0 0 16z"/></svg></button>`;
+
+/* panels */
+const rowHTML=(d,r,i)=>{const id=d.id+'-'+i;return `<div class="row${store[id]?' done':''}" data-id="${id}">
+<button class="rh" aria-expanded="false"><span class="time">${r.t}</span><span class="rt">${r.title}</span><span class="dur">${r.d}</span>
+<svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg></button>
+<div class="rb"><div><div class="inner"><ul>${r.pts.map(p=>`<li>${p}</li>`).join('')}</ul>${r.code?`<pre><code>${r.code.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</code></pre>`:''}
+</div></div></div></div>`};
+const toolHTML={
+ growth:`<div class="tool reveal"><h3>محاسبه‌گر: رشد ماه به ماه</h3><p>درآمد دو ماه را وارد کنید (مشابه تحلیل Online Retail).</p>
+  <div class="ctl"><label>درآمد ماه قبل<input type="number" id="g1" value="100000"></label><label>درآمد این ماه<input type="number" id="g2" value="136500"></label></div>
+  <div class="out"><div class="pill"><small>رشد ماه به ماه</small><b id="go">+36.5%</b></div></div></div>`,
+ el:`<div class="tool reveal"><h3>محاسبه‌گر: زیان مورد انتظار (EL)</h3><p><span dir="ltr">EL = PD × LGD × EAD</span>. مقادیر پیش‌فرض مطابق مثال دوره است.</p>
+  <div class="ctl"><label>PD <b id="pdv">5%</b><input type="range" id="pd" min="0.5" max="30" step="0.5" value="5"></label>
+  <label>LGD <b id="lgv">40%</b><input type="range" id="lg" min="0" max="100" step="1" value="40"></label>
+  <label>EAD (میلیون تومان) <b id="eav">100</b><input type="range" id="ea" min="10" max="500" step="10" value="100"></label></div>
+  <div class="out"><div class="pill"><small>EL (میلیون تومان)</small><b id="elo">2.0</b></div></div></div>`,
+ impurity:`<div class="tool reveal"><h3>محاسبه‌گر: Gini در برابر Entropy</h3><p>برای یک گره‌ی دوکلاسه با نسبت کلاس مثبت p. هر دو در p=0.5 بیشینه‌اند و در گره‌ی خالص صفر می‌شوند.</p>
+  <div class="ctl"><label>p (نسبت کلاس مثبت) <b id="pv">0.50</b><input type="range" id="p" min="1" max="99" value="50"></label></div>
+  <div class="bars"><div class="bar"><span class="l">Gini</span><div class="t"><div class="f" id="fgi"></div></div><b id="gi"></b></div>
+  <div class="bar"><span class="l">Entropy</span><div class="t"><div class="f" id="fen"></div></div><b id="en"></b></div></div></div>`,
+ eval:`<div class="tool reveal"><h3>محاسبه‌گر: AUC به Gini و وضعیت PSI</h3><p><span dir="ltr">Gini = 2 × AUC − 1</span>. آستانه‌های PSI مطابق مطالب دوره: 0.1 و 0.25.</p>
+  <div class="ctl"><label>AUC <b id="av">0.83</b><input type="range" id="auc" min="50" max="100" value="83"></label>
+  <label>PSI<input type="number" id="psi" step="0.01" min="0" value="0.18"></label></div>
+  <div class="out"><div class="pill"><small>Gini</small><b id="gn">0.66</b></div><div class="pill" style="flex:1"><small>وضعیت PSI</small><b id="ps" style="font-size:16px;direction:rtl"></b></div></div></div>`
+};
+$('#panels').innerHTML=DAYS.map((d,k)=>`<section class="panel${k==0?' on':''}" id="p-${d.id}"><div class="dayhead"><div class="d">${d.n} · ${d.date}</div><h2>${d.title}</h2><p>${d.blurb}</p></div>
+<p class="hint">برای مشاهده کلیک کنید.</p>${d.rows.map((r,i)=>rowHTML(d,r,i)).join('')}${toolHTML[d.tool]}</section>`).join('')+
+`<section class="panel" id="p-proj">${projHTML()}</section>
+<section class="panel" id="p-gloss"><div class="dayhead"><div class="d">مرجع سریع</div><h2>واژه‌نامه</h2><p>اصطلاحات کلیدی چهار جلسه. برای یافتن هر مورد جستجو کنید.</p></div>
+<input class="search" id="q" placeholder="جستجو در اصطلاحات" aria-label="جستجو"><div class="gl" id="gl"></div></section>`;
+
+function projHTML(){return `<div class="dayhead"><div class="d">کاربرد همه‌ی جلسه‌ها در یک پروژه</div><h2>پروژه‌ی نهایی: امتیازدهی اعتباری German Credit</h2>
+<p>مسیر از داده‌ی خام تا سیاست اعتباری: مدل، Calibration، SHAP و LIME، و تبدیل خروجی به پیشنهاد مدیریتی.</p></div>
+<div class="flow">${['تعریف Target','Data Quality و Leakage','Feature Engineering','Logistic Baseline','Random Forest و Boosting','Calibration','SHAP و LIME','Causality','Threshold Policy','ارائه‌ی مدیریتی'].map(x=>`<span>${x}</span>`).join('')}</div>
+<div class="cards">
+<div class="card reveal"><b class="n">1000</b><span>وام در داده. نکول 30 درصد (نسبت خوب به بد 7 به 3)</span></div>
+<div class="card reveal"><b class="n">5 : 1</b><span>نسبت هزینه‌ی خطا: تایید یک بد، 5 برابر رد یک خوب (از german.doc)</span></div>
+<div class="card reveal"><b class="n">0.791</b><span>AUC اعتبارسنجی متقاطع مدل Random Forest منتخب</span></div>
+<div class="card reveal"><b class="n">0.22</b><span>برش پیشنهادی: رد کن اگر احتمال نکول بیشتر یا مساوی 0.22</span></div>
+<div class="card reveal"><b class="n">0.05</b><span>PSI بین آموزش و آزمون: پایداری خوب</span></div>
+</div>
+<h3 class="sec">هزینه‌ی کل سیاست‌های پذیرش (300 مشتری آزمون)</h3>
+<p class="note">برای مشاهده‌ی Approval Rate و Bad Rate روی هر میله کلیک کنید.</p>
+<div class="tool" style="margin-top:8px"><div class="bars" id="pb"></div><div class="out"><div class="pill"><small>Approval Rate</small><b id="pa"></b></div><div class="pill"><small>Bad Rate در پذیرفته‌شدگان</small><b id="pbad"></b></div></div></div>
+<h3 class="sec">درس‌های پروژه</h3>
+<div class="row open" style="pointer-events:auto"><div class="rb"><div><div class="inner"><ul>
+<li><b>کدگذاری برچسب</b>: german.doc مقدار 1 را خوب و 2 را بد می‌داند و صورت پروژه برعکس. با تبدیل به 0 = خوب و 1 = بد، Precision و Recall و AUC برعکس نشدند.</li>
+<li><b>ویژگی‌ای که نبود</b>: داده درآمد و سقف اعتبار ندارد، پس به‌جای نسبت بدهی به درآمد، قسط ماهانه (مبلغ ÷ مدت) و شاخص تعهد (مدت × نرخ قسط) ساخته شد.</li>
+<li><b>ماتریس هزینه</b> در صورت پروژه نبود و نسبت 5 به 1 از german.doc آمد. برش به همین عدد وابسته است و باید با کسب‌وکار تایید شود.</li>
+<li><b>ستون تاریخ نیست</b>، پس Out-of-Time validation ممکن نشد و به‌جای آن بازه‌ی اطمینان گزارش شد.</li>
+<li><b>Calibration</b>: امتیازهای جنگل فشرده‌اند. پرریسک‌ترین گروه حدود 59 درصد پیش‌بینی می‌شود ولی حدود 68 درصد نکول می‌کند. برای تصمیم پذیرش کافی است، برای قیمت‌گذاری باید بازکالیبره شود.</li>
+<li><b>علیت</b>: SHAP مدل را توضیح می‌دهد، نه جهان را. اهرم‌های واقعی بانک مبلغ، مدت، قسط و قیمت‌گذاری‌اند و اثرشان با پایلوت تصادفی سنجیدنی است.</li>
+</ul></div></div></div></div>
+<div class="warn">داده‌ی سال 1994 و فقط شامل وام‌های پذیرفته‌شده است. این یک مدل آموزشی است و برای تولید آماده نیست.</div>
+<h3 class="sec">تحویل‌دادنی‌ها</h3>
+<div class="cards"><div class="card"><span>نوتبوک تحلیل و مدل‌سازی</span></div><div class="card"><span>گزارش اجرایی (7 صفحه)</span></div><div class="card"><span>ارائه‌ی مدیریتی: 5 اسلاید اصلی + Appendix</span></div></div>`}
+
+/* interactions */
+document.addEventListener('click',e=>{
+  const rh=e.target.closest('.rh'); if(rh){const row=rh.parentElement;const o=row.classList.toggle('open');rh.setAttribute('aria-expanded',o)}
+  const tb=e.target.closest('.tab'); if(tb)show(tb.dataset.id);
+  const bar=e.target.closest('#pb .bar'); if(bar)pick(+bar.dataset.i);
+});
+function show(id){
+  $$('.tab').forEach(t=>t.setAttribute('aria-selected',t.dataset.id===id));
+  $$('.panel').forEach(p=>p.classList.toggle('on',p.id==='p-'+id));
+  window.scrollTo({top:Math.min(window.scrollY,$('nav').offsetTop+1),behavior:'smooth'});
+  watch(); if(id==='proj')animateBars();
+  const t=$(`.tab[data-id="${id}"]`); if(t&&t.scrollIntoView)t.scrollIntoView({inline:'center',block:'nearest'});
+}
+
+/* tools */
+const f1=x=>x.toFixed(1);
+function growth(){const a=+$('#g1').value,b=+$('#g2').value;$('#go').textContent=a>0?((b-a)/a*100>=0?'+':'')+f1((b-a)/a*100)+'%':'-'}
+['g1','g2'].forEach(i=>$('#'+i).addEventListener('input',growth)); growth();
+function el(){const p=+$('#pd').value,l=+$('#lg').value,e=+$('#ea').value;$('#pdv').textContent=p+'%';$('#lgv').textContent=l+'%';$('#eav').textContent=e;$('#elo').textContent=f1(p*l*e/10000)}
+['pd','lg','ea'].forEach(i=>$('#'+i).addEventListener('input',el)); el();
+function imp(){const p=$('#p').value/100;const g=2*p*(1-p),h=-(p*Math.log2(p)+(1-p)*Math.log2(1-p));$('#pv').textContent=p.toFixed(2);$('#gi').textContent=g.toFixed(3);$('#en').textContent=h.toFixed(3);$('#fgi').style.width=(g/0.5*100)+'%';$('#fen').style.width=(h*100)+'%'}
+$('#p').addEventListener('input',imp); imp();
+function ev(){const a=$('#auc').value/100;$('#av').textContent=a.toFixed(2);$('#gn').textContent=(2*a-1).toFixed(2);
+  const s=parseFloat($('#psi').value);let t='';if(isNaN(s))t='-';else if(s<0.1)t='کمتر از 0.1: تغییر اندک، اقدام فوری لازم نیست';else if(s<0.25)t='بین 0.1 و 0.25: تغییر متوسط، پایش و بررسی علت';else t='0.25 یا بیشتر: تغییر قابل توجه، بررسی فوری و سنجش بازآموزی';$('#ps').textContent=t}
+['auc','psi'].forEach(i=>$('#'+i).addEventListener('input',ev)); ev();
+
+/* project bars */
+const POL=[['همه را بپذیر',450,'100%','30.0%'],['برش 0.50',303,'85%','22.7%'],['برش 0.22 (پیشنهادی)',179,'40%','12.4%'],['همه را رد کن',210,'0%','بدون وام']];
+$('#pb').innerHTML=POL.map((p,i)=>`<div class="bar" data-i="${i}" role="button" tabindex="0"><span class="l">${p[0]}</span><div class="t"><div class="f"></div></div><b>${p[1]}</b></div>`).join('');
+function pick(i){$$('#pb .bar').forEach((b,j)=>b.classList.toggle('sel',i===j));$('#pa').textContent=POL[i][2];$('#pbad').textContent=POL[i][3]}
+function animateBars(){$$('#pb .f').forEach((f,i)=>{f.style.width='0';setTimeout(()=>f.style.width=(POL[i][1]/450*100)+'%',60)})}
+$('#pb').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){const b=e.target.closest('.bar');if(b){e.preventDefault();pick(+b.dataset.i)}}});
+pick(2);
+
+/* glossary */
+function gl(q){q=(q||'').trim().toLowerCase();const L={d1:'روز 1',d2:'روز 2',d3:'روز 3',d4:'روز 4'};
+ $('#gl').innerHTML=GLOSSARY.filter(t=>!q||(t.join(' ')).toLowerCase().includes(q)).map(t=>`<div class="term"><h4>${t[0]}</h4>${t[1]?`<small>${t[1]}</small>`:''}<p>${t[2]}</p><span class="dd">${L[t[3]]}</span></div>`).join('')||'<p class="note">موردی پیدا نشد.</p>'}
+$('#q').addEventListener('input',e=>gl(e.target.value)); gl();
+
+/* theme */
+$('#th').addEventListener('click',()=>{const r=document.documentElement;const dark=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;r.dataset.theme=dark?'light':'dark'});
+
+/* reveal */
+let io=null;
+function watch(){const els=$$('.reveal:not(.in)');if(!('IntersectionObserver' in window)){els.forEach(e=>e.classList.add('in'));return}
+ io=io||new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.1});els.forEach(e=>io.observe(e))}
+watch();
+})();
+
+</script>
+</body>
+</html>
